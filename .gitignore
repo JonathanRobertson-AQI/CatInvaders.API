@@ -230,6 +230,10 @@ csx/
 ecf/
 rcf/
 
+# Azure publish profiles and service dependencies
+**/Properties/ServiceDependencies/
+**/Properties/PublishProfiles/
+
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
@@ -281,6 +285,11 @@ ServiceFabricBackup/
 *.mdf
 *.ldf
 *.ndf
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
 
 # Business Intelligence projects
 *.rdl.data
