@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Reflection;
 using CatInvaders.API.Data;
 using CatInvaders.API.Data.Repositories;
 using CatInvaders.API.Middleware;
@@ -9,6 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ── Controllers ──────────────────────────────────────────────────────────────
 builder.Services.AddControllers();
+
+// ── CORS ─────────────────────────────────────────────────────────────────────
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // ── OpenAPI / Swagger ────────────────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +60,9 @@ using (var scope = app.Services.CreateScope())
 // ── Middleware Pipeline ───────────────────────────────────────────────────────
 // Global exception handler must be first so it wraps every subsequent middleware.
 app.UseGlobalExceptionHandling();
+
+// CORS must be placed after UseRouting and before UseAuthorization
+app.UseCors("AllowAngularApp");
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
